@@ -109,8 +109,41 @@
                 <form method="post" style="margin-top: 1.3em;">
                     {{ comment_form | crispy }}
                     {% csrf_token %}
+                    
+                            
                     <button type="submit" class="btn btn-signup btn-lg">Submit</button>
+                    <div class="container">
+                        <div class="row">
+                            <div class="cold-md-8 offset-md-2">
+                                {% for message in messages %}
+                                <div class="alert {{ message.tags }} alert-dismissble fade show" id="msg" role="alert">
+                                    {{ message | safe }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                
+                                    </button>
+                                </div>
+                
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div> 
+                
                 </form>
+                <!-- <div class="container">
+                    <div class="row">
+                        <div class="cold-md-8 offset-md-2">
+                            {% for message in messages %}
+                            <div class="alert {{ message.tags }} alert-dismissble fade show" id="msg" role="alert">
+                                {{ message | safe }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            
+                                </button>
+                            </div>
+            
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div> -->
                 {% endif %}
                 {% endif %}
             </div>

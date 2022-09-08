@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
+from django.contrib import  messages
 from .models import Post
 from .forms import CommentForm
 
@@ -38,10 +39,12 @@ class PostDetail(View):
         post = get_object_or_404(queryset, slug=slug)
         comments = post.comments.filter(approved=True).order_by('created_on')
         liked = False
+        
         if post.likes.filter(id=self.request.user.id).exists():
             liked = True
 
         comment_form = CommentForm(data=request.POST)
+        
 
         if comment_form.is_valid():
             comment_form.instance.email = request.user.email
@@ -49,6 +52,9 @@ class PostDetail(View):
             comment = comment_form.save(commit=False)
             comment.post = post
             comment.save()
+            messages.success(request, 'You successfully added a comment.')
+                     
+            
 
         else:
             comment_form = CommentForm()                
@@ -65,6 +71,7 @@ class PostDetail(View):
                 
             },
         )
+        
 
 class PostLike(View):
     def post(self, request, slug):
